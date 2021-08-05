@@ -1,0 +1,188 @@
+﻿@model Health.Web.App.Models.Patient
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h3>Create New Patient</h3>
+<hr />
+<form method="post">
+    <div class="container">
+        <div class="row">
+
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="col-lg-4">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="col-lg-4">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="col-lg-4">
+                <label asp-for="Dni" class="control-label"></label>
+                <input asp-for="Dni" class="form-control" />
+                <span asp-validation-for="Dni" class="text-danger"></span>
+            </div>
+
+        </div>
+
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    <div class="container">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="col-lg-4">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col order- first">
+                <label asp-for="DateBirth" class="control-label"></label>
+                <input asp-for="DateBirth" class="form-control" />
+                <span asp-validation-for="DateBirth" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label asp-for="NumberPhone" class="control-label"></label>
+                <input asp-for="NumberPhone" class="form-control" />
+                <span asp-validation-for="NumberPhone" class="text-danger"></span>
+            </div>
+
+
+        </div>
+
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col order-last">
+                <label asp-for="Country" class="control-label"></label>
+                <select asp-for="Country" class="form-control">
+
+                    <option value="República Dominicana">República Dominicana</option>
+                    <option value="Estados Unidos">Estados Unidos</option>
+                    <option value="Ecuador">Ecuador</option>
+                    <option value="Puerto Rico">Puerto Rico</option>
+                    <option value="Salvador">Salvador</option>
+                    <option value="Haiti">Haiti</option>
+                    <option value="Hungria">Hungria</option>
+                    <option value="Peru">Peru</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="Jamaica">Jamaica</option>
+                    <option value="Venezuela">Venezuela</option>
+
+
+                </select>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <label asp-for="Street" class="control-label"></label>
+                <input asp-for="Street" class="form-control" />
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
+
+            <div class="col order- first">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col order- first">
+                <label asp-for="Disease" class="control-label"></label>
+                <select asp-for="Disease" class="form-control">
+
+                    <option value="Ninguna">Ninguna</option>
+                    <option value="Antrax">Antrax</option>
+                    <option value="Cancer">Cancer</option>
+                    <option value="Clamidia">Clamidia</option>
+                    <option value="Culebrilla (herpes zóster)">Culebrilla (herpes zóster)</option>
+                    <option value="Diabetes">Diabetes</option>
+                    <option value="Meningitis">Meningitis</option>
+                    <option value="Epilepsia">Epilepsia</option>
+                </select>
+                <span asp-validation-for="Disease" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <label asp-for="AllergicMedicine" class="control-label"></label>
+                <select asp-for="AllergicMedicine" class="form-control">
+                    <option value="Ninguna">Ninguna</option>
+                    <option value="Cetirizine">Cetirizine </option>
+                    <option value="Fexofenadine">Desloratadine </option>
+                    <option value="Levocetirizine">Levocetirizine</option>
+                    <option value="Loratadin">ARS ARS Humano</option>
+                    <option value="Alergia farmacológica">Alergia farmacológica</option>
+                    <option value="other">other</option>
+
+
+
+                </select>
+
+
+                <span asp-validation-for="AllergicMedicine" class="text-danger"></span>
+            </div>
+
+            <div class="col order-last">
+                <label asp-for="HealthInsurance" class="control-label"></label>
+                <select asp-for="HealthInsurance" class="form-control">
+                    <option value="Ninguna">Ninguna</option>
+                    <option value="ARS">ARS</option>
+                    <option value="ARS SIMAG">ARS SIMAG</option>
+                    <option value="ARS APS">ARS APS</option>
+                    <option value="ARS Humano">ARS ARS Humano</option>
+                    <option value="ARS SEMMA">ARS SEMMA</option>
+                    <option value="ARS Palic">ARS Palic</option>
+                    <option value="Humano Seguros">Humano Seguros</option>
+
+                </select>
+
+                <span asp-validation-for="HealthInsurance" class="text-danger"></span>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-auto me-auto">
+                <input type="submit" value="Create" class="btn btn-primary" />
+
+            </div>
+
+            <div class="col-10">
+                <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
