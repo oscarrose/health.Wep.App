@@ -8,18 +8,27 @@ using Microsoft.EntityFrameworkCore;
 using Health.Web.App.Data;
 using Health.Web.App.Models;
 using Health.Web.App.Services;
+using Microsoft.Extensions.Logging;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Health.Web.App.Controllers
 {
     public class PatientsController : Controller
     {
-        private readonly SaludWebAppContext _context;
-        private readonly ServicesPatients _servicesPatients;
+ 
+        private readonly IServicesPatients _servicesPatients;
+        private readonly IEmailSender _emailSender;
 
-        public PatientsController(SaludWebAppContext context, ServicesPatients servicesPatients )
+        //private readonly EmailSender _emailSender;
+
+        public PatientsController( IServicesPatients servicesPatients, IEmailSender emailSender   )
         {
-            _context = context;
+         
             _servicesPatients = servicesPatients;
+            _emailSender = emailSender;
+          
+
         }
 
         // GET: Patients
@@ -29,15 +38,14 @@ namespace Health.Web.App.Controllers
         }
 
         // GET: Patients/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var patient = await _context.Patients
-                .FirstOrDefaultAsync(m => m.PatientId == id);
+            var patient = _servicesPatients.GetDetailsPatients(id);
             if (patient == null)
             {
                 return NotFound();
@@ -57,26 +65,34 @@ namespace Health.Web.App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PatientId,FirstName,LastName,Dni,DateBirth,NumberPhone,Country,City,Street,HealthInsurance,Disease,AllergicMedicine,SendEmailConfirmed")] Patient patient)
+        public async Task<IActionResult> Create([Bind("PatientId,FirstName,LastName,Email,Dni,DateBirth,NumberPhone,Country,City,Street,HealthInsurance,Disease,AllergicMedicine,SendEmailConfirmed")] Patient patient)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(patient);
-                await _context.SaveChangesAsync();
+                _servicesPatients.SendRegistrePatients(patient.FirstName, patient.LastName, patient.Dni, patient.HealthInsurance, patient.Disease, patient.AllergicMedicine);
+
+                var callbackUrl = Url.Page(
+                        "/Home/Index",
+                        pageHandler: null,
+                        values: new { patientdId = patient.Dni },
+                        protocol: Request.Scheme);
+
+                await _emailSender.SendEmailAsync(patient.Email,"Confirm your registration",
+                    $"{ServicesPatients.getmessage} <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                 return RedirectToAction(nameof(Index));
             }
             return View(patient);
         }
 
         // GET: Patients/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var patient = await _context.Patients.FindAsync(id);
+            var patient = _servicesPatients.GetDetailsPatients(id);
             if (patient == null)
             {
                 return NotFound();
@@ -89,7 +105,7 @@ namespace Health.Web.App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PatientId,FirstName,LastName,Dni,DateBirth,NumberPhone,Country,City,Street,HealthInsurance,Disease,AllergicMedicine,SendEmailConfirmed")] Patient patient)
+        public async Task<IActionResult> Edit(int id, [Bind("PatientId,FirstName,LastName,Email,Dni,DateBirth,NumberPhone,Country,City,Street,HealthInsurance,Disease,AllergicMedicine,SendEmailConfirmed")] Patient patient)
         {
             if (id != patient.PatientId)
             {
@@ -100,8 +116,7 @@ namespace Health.Web.App.Controllers
             {
                 try
                 {
-                    _context.Update(patient);
-                    await _context.SaveChangesAsync();
+                    _servicesPatients.EditPatients(patient);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,15 +135,14 @@ namespace Health.Web.App.Controllers
         }
 
         // GET: Patients/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var patient = await _context.Patients
-                .FirstOrDefaultAsync(m => m.PatientId == id);
+            var patient = _servicesPatients.GetDetailsPatients(id);
             if (patient == null)
             {
                 return NotFound();
@@ -140,17 +154,17 @@ namespace Health.Web.App.Controllers
         // POST: Patients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
-            _context.Patients.Remove(patient);
-            await _context.SaveChangesAsync();
+
+
+            _servicesPatients.DeletePatients(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool PatientExists(int id)
         {
-            return _context.Patients.Any(e => e.PatientId == id);
+            return _servicesPatients.PatientsExist( id);
         }
     }
 }

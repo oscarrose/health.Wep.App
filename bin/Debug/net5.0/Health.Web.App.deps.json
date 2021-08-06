@@ -39,6 +39,7 @@
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "5.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.8",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.8",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.2",
           "SendGrid": "9.24.1",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",

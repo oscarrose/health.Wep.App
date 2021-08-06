@@ -7,6 +7,7 @@
 <h3>Edit Patient</h3>
 
 <hr />
+
 <form asp-action="Edit">
     <div class="container">
         <div class="row">
@@ -30,15 +31,20 @@
                 <span asp-validation-for="Dni" class="text-danger"></span>
             </div>
 
-
         </div>
 
     </div>
-
     &nbsp;&nbsp;&nbsp;&nbsp;
 
     <div class="container">
         <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="col-lg-4">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
             <div class="col order- first">
                 <label asp-for="DateBirth" class="control-label"></label>
                 <input asp-for="DateBirth" class="form-control" />
@@ -49,6 +55,16 @@
                 <input asp-for="NumberPhone" class="form-control" />
                 <span asp-validation-for="NumberPhone" class="text-danger"></span>
             </div>
+
+
+        </div>
+
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    <div class="container">
+        <div class="row">
+
             <div class="col order-last">
                 <label asp-for="Country" class="control-label"></label>
                 <select asp-for="Country" class="form-control">
@@ -70,38 +86,17 @@
                 </select>
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
-        </div>
-    </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
 
-
-    <div class="container">
-        <div class="row">
-            <div class="col order- first">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
             <div class="col">
                 <label asp-for="Street" class="control-label"></label>
                 <input asp-for="Street" class="form-control" />
                 <span asp-validation-for="Street" class="text-danger"></span>
             </div>
-            <div class="col order-last">
-                <label asp-for="HealthInsurance" class="control-label"></label>
-                <select asp-for="HealthInsurance" class="form-control">
-                    <option value="Ninguna">Ninguna</option>
-                    <option value="ARS">ARS</option>
-                    <option value="ARS SIMAG">ARS SIMAG</option>
-                    <option value="ARS APS">ARS APS</option>
-                    <option value="ARS Humano">ARS ARS Humano</option>
-                    <option value="ARS SEMMA">ARS SEMMA</option>
-                    <option value="ARS Palic">ARS Palic</option>
-                    <option value="Humano Seguros">Humano Seguros</option>
 
-                </select>
-
-                <span asp-validation-for="HealthInsurance" class="text-danger"></span>
+            <div class="col order- first">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -125,6 +120,7 @@
                 </select>
                 <span asp-validation-for="Disease" class="text-danger"></span>
             </div>
+
             <div class="col">
                 <label asp-for="AllergicMedicine" class="control-label"></label>
                 <select asp-for="AllergicMedicine" class="form-control">
@@ -144,11 +140,28 @@
                 <span asp-validation-for="AllergicMedicine" class="text-danger"></span>
             </div>
 
+            <div class="col order-last">
+                <label asp-for="HealthInsurance" class="control-label"></label>
+                <select asp-for="HealthInsurance" class="form-control">
+                    <option value="Ninguna">Ninguna</option>
+                    <option value="ARS">ARS</option>
+                    <option value="ARS SIMAG">ARS SIMAG</option>
+                    <option value="ARS APS">ARS APS</option>
+                    <option value="ARS Humano">ARS ARS Humano</option>
+                    <option value="ARS SEMMA">ARS SEMMA</option>
+                    <option value="ARS Palic">ARS Palic</option>
+                    <option value="Humano Seguros">Humano Seguros</option>
+
+                </select>
+
+                <span asp-validation-for="HealthInsurance" class="text-danger"></span>
+            </div>
+
+
 
         </div>
-
-
     </div>
+
 
     &nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -169,9 +182,6 @@
         </div>
 
     </div>
-
-
-
 </form>
 
 
