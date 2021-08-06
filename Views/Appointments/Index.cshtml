@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Health.Web.App.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Appointments</h1>
+
+<p>
+    <a class="btn btn-outline-primary btn-lg" asp-action="Create">Create New</a>
+</p>
+
+<hr />
+
+    <form asp-controller="Appointments" asp-action="Index" method="get">
+        <p>
+            <select name="status">
+                <option value=""></option>
+                <option value="pending">pending</option>
+                <option value="completed">completed</option>
+                <option value="cancelled">cancelled</option>
+            </select>
+
+            Status: <input type="text" class="txt text-sm-left" name="patientsSearch" />
+            <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
+        </p>
+    </form>
+
+<div class="table-responsive">
+    <table class="table-sm table table-bordered border-dark">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.AppointmentId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PatientId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccountDoctorId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateAppointments)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.EndTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comment)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AppointmentId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PatientId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountDoctorId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateAppointments)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        <a class="btn btn-warning btn-sm w-30" asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a>
+                        <a class="btn btn-info btn-sm w-30" asp-action="Details" asp-route-id="@item.AppointmentId">Start appointments</a>
+                        @*<a class="btn btn-danger btn-sm w-30" asp-action="Delete" asp-route-id="@item.AppointmentId">Delete</a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

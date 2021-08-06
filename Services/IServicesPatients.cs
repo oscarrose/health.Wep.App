@@ -13,6 +13,7 @@ namespace Health.Web.App.Services
         Patient GetDetailsPatients(int? id);
         Task<IEnumerable<Patient>> GetPatients(string searchString);
         bool PatientsExist(int id);
-        string SendRegistrePatients(string FirstName, string LastName, string DNI, string HealthInsurance, string Disease, string AllergicMedicine);
+        string SendDateOfPatients(string email,string FirstName, string LastName, string DNI,string DateBrith,string phone,
+            string country,string city,string street,string HealthInsurance, string Disease, string AllergicMedicine);
     }
 }

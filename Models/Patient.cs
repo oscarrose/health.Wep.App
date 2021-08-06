@@ -17,6 +17,8 @@ namespace Health.Web.App.Models
             Appointments = new HashSet<Appointment>();
             HistoryAppointments = new HashSet<HistoryAppointment>();
         }
+        // user ID from AspNetUser table.
+        public string OwnerID { get; set; }
 
         [Key]
         [Column("PatientID")]

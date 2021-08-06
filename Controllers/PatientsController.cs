@@ -69,16 +69,18 @@ namespace Health.Web.App.Controllers
         {
             if (ModelState.IsValid)
             {
-                _servicesPatients.SendRegistrePatients(patient.FirstName, patient.LastName, patient.Dni, patient.HealthInsurance, patient.Disease, patient.AllergicMedicine);
+                _servicesPatients.SendDateOfPatients(patient.Email, patient.FirstName, patient.LastName, patient.Dni, patient.DateBirth.ToString(), patient.NumberPhone,
+                          patient.Country, patient.City, patient.Street, patient.HealthInsurance, patient.Disease, patient.AllergicMedicine); 
 
                 var callbackUrl = Url.Page(
                         "/Home/Index",
                         pageHandler: null,
-                        values: new { patientdId = patient.Dni },
+                        values: new { patientdId = patient.PatientId },
                         protocol: Request.Scheme);
 
                 await _emailSender.SendEmailAsync(patient.Email,"Confirm your registration",
                     $"{ServicesPatients.getmessage} <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
                 return RedirectToAction(nameof(Index));
             }
             return View(patient);
@@ -117,6 +119,19 @@ namespace Health.Web.App.Controllers
                 try
                 {
                     _servicesPatients.EditPatients(patient);
+
+
+                    _servicesPatients.SendDateOfPatients(patient.Email, patient.FirstName, patient.LastName, patient.Dni, patient.DateBirth.ToString(), patient.NumberPhone,
+                        patient.Country, patient.City, patient.Street, patient.HealthInsurance, patient.Disease, patient.AllergicMedicine);
+
+                    var callbackUrl = Url.Page(
+                            "/Home/Index",
+                            pageHandler: null,
+                            values: new { patientdId = patient.PatientId },
+                            protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(patient.Email, "your data was updated",
+                        $"{ServicesPatients.getmessage} <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                 }
                 catch (DbUpdateConcurrencyException)
                 {

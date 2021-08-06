@@ -42,8 +42,9 @@ namespace Health.Web.App
 
             });
 
-            //Add my services of patients
+            //Add my services 
             services.AddScoped<IServicesPatients, ServicesPatients>();
+            services.AddScoped<IServicesAppointment, ServicesAppointment>();
           
 
             services.AddDatabaseDeveloperPageExceptionFilter();

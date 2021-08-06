@@ -78,7 +78,11 @@ namespace Health.Web.App.Services
             _saludWebAppContext.Patients.Remove(patient);
             _saludWebAppContext.SaveChanges();
         }
-
+        /// <summary>
+        /// for `the existens````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool PatientsExist(int id)
         {
             return _saludWebAppContext.Patients.Any(e => e.PatientId == id);
@@ -94,18 +98,18 @@ namespace Health.Web.App.Services
         /// <param name="Disease"></param>
         /// <param name="AllergicMedicine"></param>
         /// <returns></returns>
-        public string SendRegistrePatients(string FirstName, string LastName, string DNI, string HealthInsurance, string Disease, string AllergicMedicine)
+      
+
+        public string SendDateOfPatients(string email, string FirstName, string LastName, string DNI, string DateBrith, string phone, string country, string city, string street, string HealthInsurance, string Disease, string AllergicMedicine)
         {
             string message = $"Hello, {FirstName + "" + LastName } was registered in health was completed, your: {DNI}, " +
-                 $"your: {HealthInsurance}, your: {Disease}, has a: {Disease}, have: {AllergicMedicine}  ";
+                 $"your email is: {email}, your date of brith is:{DateBrith}, your Number phone is {phone}," +
+                 $"the country you live in is{country}, the city you live in is{city} " +
+                 $"the street you live in is{street},  your: {HealthInsurance}, your: {Disease}, has a: {Disease}, have: {AllergicMedicine}  ";
 
-            
 
-            return getmessage= message;
+
+            return getmessage = message;
         }
-
-        
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -16,18 +17,28 @@ namespace Health.Web.App.Models
             TranckingAppointments = new HashSet<TranckingAppointment>();
         }
 
+      
+
         [Key]
         [Column("AppointmentID")]
+        [DisplayName("Appointment Id")]
         public int AppointmentId { get; set; }
         [Required]
         [Column("AccountDoctorID")]
         [StringLength(450)]
+        [DisplayName("Doctor")]
         public string AccountDoctorId { get; set; }
         [Column("PatientID")]
+        [DisplayName("Patients")]
         public int PatientId { get; set; }
         [Column(TypeName = "date")]
+        [DisplayName("Date of Appointments")]
         public DateTime DateAppointments { get; set; }
+        [DisplayName("Start Time")]
+        [Required]
         public TimeSpan StartTime { get; set; }
+        [DisplayName("End Time")]
+        [Required]
         public TimeSpan EndTime { get; set; }
         [StringLength(12)]
         public string Status { get; set; }
