@@ -86,23 +86,21 @@ namespace Health.Web.App.Controllers
         }
 
         // GET: Appointments/Edit/5
-        public IActionResult Edit(int? id)
+       public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var appointment = _servicesAppointment.GetDetailAppoint(id);
+            var appointment = _servicesAppointment.GetAppointEdit(id);
             if (appointment == null)
             {
                 return NotFound();
-
-               
             }
             ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
             ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
-            return View(appointment);
+            return View (appointment);
         }
 
        

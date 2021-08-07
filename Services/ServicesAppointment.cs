@@ -126,5 +126,10 @@ namespace Health.Web.App.Services
             
             return Get_Email_Patient_ForAppoint;
         }
+
+        public Appointment GetAppointEdit(int? id)
+        {
+          return  _saludAppointment.Appointments.Find(id);
+        }
     }
 }
