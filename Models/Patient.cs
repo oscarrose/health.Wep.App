@@ -17,8 +17,7 @@ namespace Health.Web.App.Models
             Appointments = new HashSet<Appointment>();
             HistoryAppointments = new HashSet<HistoryAppointment>();
         }
-        // user ID from AspNetUser table.
-        public string OwnerID { get; set; }
+     
 
         [Key]
         [Column("PatientID")]
@@ -68,5 +67,12 @@ namespace Health.Web.App.Models
         public virtual ICollection<Appointment> Appointments { get; set; }
         [InverseProperty(nameof(HistoryAppointment.Patient))]
         public virtual ICollection<HistoryAppointment> HistoryAppointments { get; set; }
+
+        internal object ToList()
+        {
+            throw new NotImplementedException();
+        }
     }
+
+   
 }

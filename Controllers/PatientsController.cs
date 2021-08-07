@@ -11,23 +11,28 @@ using Health.Web.App.Services;
 using Microsoft.Extensions.Logging;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Health.Web.App.Controllers
 {
+    [AllowAnonymous]
     public class PatientsController : Controller
     {
  
         private readonly IServicesPatients _servicesPatients;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger<PatientsController> _logger;
 
         //private readonly EmailSender _emailSender;
 
-        public PatientsController( IServicesPatients servicesPatients, IEmailSender emailSender   )
+        public PatientsController( IServicesPatients servicesPatients, IEmailSender emailSender, ILogger<PatientsController> logger)
         {
          
             _servicesPatients = servicesPatients;
             _emailSender = emailSender;
-          
+            _logger = logger;
+
 
         }
 
@@ -67,8 +72,10 @@ namespace Health.Web.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PatientId,FirstName,LastName,Email,Dni,DateBirth,NumberPhone,Country,City,Street,HealthInsurance,Disease,AllergicMedicine,SendEmailConfirmed")] Patient patient)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)     
             {
+                _servicesPatients.createPatients(patient);
+
                 _servicesPatients.SendDateOfPatients(patient.Email, patient.FirstName, patient.LastName, patient.Dni, patient.DateBirth.ToString(), patient.NumberPhone,
                           patient.Country, patient.City, patient.Street, patient.HealthInsurance, patient.Disease, patient.AllergicMedicine); 
 
@@ -171,8 +178,6 @@ namespace Health.Web.App.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-
-
             _servicesPatients.DeletePatients(id);
             return RedirectToAction(nameof(Index));
         }

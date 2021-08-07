@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Health.Web.App.Data;
 using Health.Web.App.Models;
 using Health.Web.App.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Text.Encodings.Web;
 
 namespace Health.Web.App.Controllers
 {
@@ -15,11 +17,13 @@ namespace Health.Web.App.Controllers
     {
         private readonly SaludWebAppContext _context;
         private readonly IServicesAppointment _servicesAppointment;
+        private readonly IEmailSender _emailSend;
 
-        public AppointmentsController(SaludWebAppContext context, IServicesAppointment servicesAppointment)
+        public AppointmentsController(SaludWebAppContext context, IServicesAppointment servicesAppointment, IEmailSender emailSend)
         {
             _context = context;
             _servicesAppointment = servicesAppointment;
+            _emailSend = emailSend;
         }
 
 
@@ -69,15 +73,20 @@ namespace Health.Web.App.Controllers
             if (ModelState.IsValid)
             {
                 _servicesAppointment.CreateAppointments(appointment);
+                _servicesAppointment.GetEmailPatients(appointment.PatientId);
+                _servicesAppointment.MessageAppoint(appointment.PatientId, appointment.AccountDoctorId,appointment.DateAppointments.ToLongDateString(),appointment.StartTime.ToString(), appointment.EndTime.ToString());
+
+                await _emailSend.SendEmailAsync(ServicesAppointment.Get_Email_Patient_ForAppoint, "Confirmation of your appointment",
+                    $"{ServicesAppointment.GetMessageAppoint} ");
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "FisrtName", appointment.PatientId);
+            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
             return View(appointment);
         }
 
         // GET: Appointments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -88,12 +97,15 @@ namespace Health.Web.App.Controllers
             if (appointment == null)
             {
                 return NotFound();
+
+               
             }
             ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "FisrtName", appointment.PatientId);
+            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
             return View(appointment);
         }
 
+       
         // POST: Appointments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -101,8 +113,10 @@ namespace Health.Web.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AccountDoctorId,PatientId,DateAppointments,StartTime,EndTime,Status,Comment,SendEmailConfirmed")] Appointment appointment)
         {
-            if (id != appointment.AppointmentId)
+           
+            if (id!= appointment.AppointmentId)
             {
+                
                 return NotFound();
             }
 
@@ -122,11 +136,12 @@ namespace Health.Web.App.Controllers
                     {
                         throw;
                     }
+                   
                 }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "FisrtaName", appointment.PatientId);
+            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
             return View(appointment);
         }
 

@@ -30,10 +30,10 @@ namespace Health.Web.App.Data
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<TranckingAppointment> TranckingAppointments { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-           
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

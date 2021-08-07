@@ -6,12 +6,17 @@ using Health.Web.App.Data;
 using Health.Web.App.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Dapper;
 
 namespace Health.Web.App.Services
 {
+   
     public class ServicesAppointment : IServicesAppointment
     {
-        private readonly SaludWebAppContext _saludAppointment;
+        public static string GetMessageAppoint;
+        public static string Get_Email_Patient_ForAppoint;
+       private readonly SaludWebAppContext _saludAppointment;
+        public string geemail { get; set; }
         public ServicesAppointment(SaludWebAppContext saludWebApp)
         {
             _saludAppointment = saludWebApp;
@@ -94,6 +99,32 @@ namespace Health.Web.App.Services
                .Include(a => a.AccountDoctor)
                .Include(a => a.Patient)
                .FirstOrDefault(m => m.AppointmentId == id);
+        }
+
+        public void MessageAppoint(int patientId, string accountDoctorId, string DateAppoint, string startTime, string EndTime)
+        {
+           
+
+            GetMessageAppoint = $"Hello, an appointment has been registered..." +
+                 $"the date of the appointment is: {DateAppoint},the appointment starts at: {startTime} and ends at {EndTime}," +
+                 $"with the doctor {accountDoctorId}.Thank you for choosing us to take care of your health ";
+
+        }
+
+      
+        public string GetEmailPatients(int patientId)
+        {
+           var connection= _saludAppointment.Database.GetDbConnection();
+            var result= connection.Query($"select DISTINCT Email from patients p inner join Appointments a on p.PatientID = a.PatientID where p.PatientID ={patientId}");
+
+      
+            foreach (var item in result)
+            {
+                Get_Email_Patient_ForAppoint = item.Email;
+            }
+
+            
+            return Get_Email_Patient_ForAppoint;
         }
     }
 }
