@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "WOcxyAtdnxjAYLKPgYLt5lhNDQ2OoF68LKMYUZWJBF5niV5WXs2npEL3ebrmXi/uWs7dZfzWl23kGQ9tj0hT5Q==",
+  "dgSpecHash": "GoZcZeEJ0x47VFSIuZiIdmBc1mqxEtYZ7OBuXMOyX8Ga8iSTNhZ6bJKRBHuo9Ml4cEY31Md585YLiIbNxvQ1ww==",
   "success": true,
   "projectFilePath": "C:\\Users\\oscar\\OneDrive - Universidad Central del Este\\universidad ing. Software\\Septimo cuatrimestre\\programacion avanzada\\Proyecto final\\Health.Web.App\\Health.Web.App.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\oscar\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
+    "C:\\Users\\oscar\\.nuget\\packages\\documentformat.openxml\\2.13.0\\documentformat.openxml.2.13.0.nupkg.sha512",
     "C:\\Users\\oscar\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\oscar\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.8\\microsoft.aspnetcore.cryptography.internal.5.0.8.nupkg.sha512",
     "C:\\Users\\oscar\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\5.0.8\\microsoft.aspnetcore.cryptography.keyderivation.5.0.8.nupkg.sha512",
@@ -97,6 +98,7 @@
     "C:\\Users\\oscar\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
     "C:\\Users\\oscar\\.nuget\\packages\\system.io.filesystem\\4.3.0\\system.io.filesystem.4.3.0.nupkg.sha512",
     "C:\\Users\\oscar\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\oscar\\.nuget\\packages\\system.io.packaging\\4.7.0\\system.io.packaging.4.7.0.nupkg.sha512",
     "C:\\Users\\oscar\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
     "C:\\Users\\oscar\\.nuget\\packages\\system.linq.expressions\\4.3.0\\system.linq.expressions.4.3.0.nupkg.sha512",
     "C:\\Users\\oscar\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",

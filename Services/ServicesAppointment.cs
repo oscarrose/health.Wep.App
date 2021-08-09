@@ -7,6 +7,7 @@ using Health.Web.App.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Dapper;
+using System.Data;
 
 namespace Health.Web.App.Services
 {
@@ -16,6 +17,9 @@ namespace Health.Web.App.Services
         public static string GetMessageAppoint;
         public static string Get_Email_Patient_ForAppoint;
        private readonly SaludWebAppContext _saludAppointment;
+
+        public static DateTime thisStart;
+        public static DateTime thisEnd;
         public string geemail { get; set; }
         public ServicesAppointment(SaludWebAppContext saludWebApp)
         {
@@ -131,5 +135,27 @@ namespace Health.Web.App.Services
         {
           return  _saludAppointment.Appointments.Find(id);
         }
+
+        public void GetTime(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// for save the information the trancking
+        /// </summary>
+        /// <param name="AppointId"></param>
+        /// <param name="Start"></param>
+        /// <param name="End"></param>
+        public void InsertTrancking(int AppointId, DateTime Start, DateTime End)
+        {
+            var connection = _saludAppointment.Database.GetDbConnection();
+
+            var procedure = "Insert_trancking";
+            var values = new { AppointmentID=AppointId, StartTime = Start, EndTime = End };
+            var result = connection.Query(procedure, values, commandType: CommandType.StoredProcedure);
+        }
+
+      
     }
 }

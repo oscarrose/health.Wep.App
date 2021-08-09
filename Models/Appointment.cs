@@ -17,7 +17,7 @@ namespace Health.Web.App.Models
             TranckingAppointments = new HashSet<TranckingAppointment>();
         }
 
-      
+
 
         [Key]
         [Column("AppointmentID")]
@@ -33,6 +33,8 @@ namespace Health.Web.App.Models
         public int PatientId { get; set; }
         [Column(TypeName = "date")]
         [DisplayName("Date of Appointments")]
+
+        [DataType(DataType.Date)]
         public DateTime DateAppointments { get; set; }
         [DisplayName("Start Time")]
         [Required]

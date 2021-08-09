@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Health.Web.App.Models.TranckingAppointment>
+
+@{
+    ViewData["Title"] = "Trancking Appointments";
+}
+
+<h1>Trancking Appointments</h1>
+
+<table class="table">
+    <thead  class="table-dark">
+        <tr>
+
+            <th>
+                Trancking Id
+            </th>
+            <th>
+                Appointment Id
+            </th>
+            <th>
+                Start Time
+            </th>
+            <th>
+                End Time
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TranckingId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppointmentId)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+
+            <td>
+
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.TranckingId">Details</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

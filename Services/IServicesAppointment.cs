@@ -1,4 +1,5 @@
 ﻿using Health.Web.App.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace Health.Web.App.Services
     {
        
 
+        void InsertTrancking(int AppointId, DateTime Start, DateTime End);
         Task<IEnumerable<Appointment>> GetAppointment(string status, string patientsSearch);
         Appointment GetDetailAppoint(int? id);
         void CreateAppointments(Appointment appointment);

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Health.Web.App.Models.HistoryAppointment>
+
+@{
+    ViewData["Title"] = "History Appointements";
+}
+
+<h1>History Appointements</h1>
+
+
+<table class="table">
+    <thead  class="table-dark">
+        <tr>
+            <th>
+                History AppointmentId
+            </th>
+            <th>
+                Appointment Id
+            </th>
+            <th>
+                patient Id
+            </th>
+            <th>
+                Start Time
+            </th>
+            <th>
+                End Time
+            </th>
+            <th>
+                Duration Appointment
+            </th>
+            <th>
+                Comment of Appointments
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HistoryAppointmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppointmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatientId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Appointment.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DurationAppointmentMinutes) second
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentAppointment)
+            </td>
+            <td>
+
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.HistoryAppointmentId">Details</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

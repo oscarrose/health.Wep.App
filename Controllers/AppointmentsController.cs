@@ -18,6 +18,8 @@ namespace Health.Web.App.Controllers
         private readonly SaludWebAppContext _context;
         private readonly IServicesAppointment _servicesAppointment;
         private readonly IEmailSender _emailSend;
+      
+
 
         public AppointmentsController(SaludWebAppContext context, IServicesAppointment servicesAppointment, IEmailSender emailSend)
         {
@@ -25,7 +27,11 @@ namespace Health.Web.App.Controllers
             _servicesAppointment = servicesAppointment;
             _emailSend = emailSend;
         }
-
+       
+        public void GetTime(object sender, EventArgs e)
+        {
+            //BtnStart.Click += new EventHandler(this.Start_Click);
+        }
 
        
 
@@ -47,6 +53,7 @@ namespace Health.Web.App.Controllers
             }
 
            var appointment= _servicesAppointment.GetDetailAppoint(id);
+           ServicesAppointment.thisStart = DateTime.Now;
             if (appointment == null)
             {
                 return NotFound();
@@ -143,6 +150,72 @@ namespace Health.Web.App.Controllers
             return View(appointment);
         }
 
+
+
+        // GET: Appointments/end appointments
+        public IActionResult EndAppoint(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var appointment = _servicesAppointment.GetAppointEdit(id);
+           ServicesAppointment.thisEnd = DateTime.Now;
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
+            return View(appointment);
+        }
+
+        /// <summary>
+        /// For end a appointments for security
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EndAppoint(int id, [Bind("AppointmentId,AccountDoctorId,PatientId,DateAppointments,StartTime,EndTime,Status,Comment,SendEmailConfirmed")] Appointment appointment)
+        {
+
+            if (id != appointment.AppointmentId)
+            {
+
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _servicesAppointment.InsertTrancking(id,ServicesAppointment.thisStart, ServicesAppointment.thisEnd);
+                    _servicesAppointment.Editappointments(appointment);
+                   
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AppointmentExists(appointment.AppointmentId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
+            return View(appointment);
+        }
+
+
         // GET: Appointments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -168,6 +241,8 @@ namespace Health.Web.App.Controllers
             _servicesAppointment.DeleteAppointment(id);
             return RedirectToAction(nameof(Index));
         }
+
+  
 
         private bool AppointmentExists(int id)
         {

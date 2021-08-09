@@ -24,7 +24,7 @@ namespace Health.Web.App.Models
         public int PatientId { get; set; }
         [Required]
         [StringLength(25)]
-        [DisplayName("Fist Name")]
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
         [Required]
         [StringLength(25)]
