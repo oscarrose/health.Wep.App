@@ -21,5 +21,6 @@ namespace Health.Web.App.Services
         Appointment GetAppointEdit(int? id);
         void MessageAppoint(int patientId, string accountDoctorId, string DateAppoint, string startTime, string EndTime);
         string GetEmailPatients(int patientId);
+  
     }
 }

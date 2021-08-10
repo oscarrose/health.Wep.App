@@ -28,12 +28,6 @@ namespace Health.Web.App.Controllers
             _emailSend = emailSend;
         }
        
-        public void GetTime(object sender, EventArgs e)
-        {
-            //BtnStart.Click += new EventHandler(this.Start_Click);
-        }
-
-       
 
         // GET: Appointments
         public async Task<IActionResult> Index(string status, string patientsSearch)
@@ -44,7 +38,7 @@ namespace Health.Web.App.Controllers
 
         }
 
-        // GET: Appointments/Details/5
+        // GET: Appointments/Details/5 for start a appointments
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -54,10 +48,13 @@ namespace Health.Web.App.Controllers
 
            var appointment= _servicesAppointment.GetDetailAppoint(id);
            ServicesAppointment.thisStart = DateTime.Now;
+
             if (appointment == null)
             {
                 return NotFound();
             }
+            ViewBag.Start = ServicesAppointment.thisStart;
+            ViewBag.Appoint = id;
 
             return View(appointment);
         }
@@ -193,7 +190,7 @@ namespace Health.Web.App.Controllers
                 try
                 {
                     _servicesAppointment.InsertTrancking(id,ServicesAppointment.thisStart, ServicesAppointment.thisEnd);
-                    _servicesAppointment.Editappointments(appointment);
+                     _servicesAppointment.Editappointments(appointment);
                    
                 }
                 catch (DbUpdateConcurrencyException)
@@ -216,31 +213,6 @@ namespace Health.Web.App.Controllers
         }
 
 
-        // GET: Appointments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var appointment =_servicesAppointment.GetDetailAppoint(id);
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-
-            return View(appointment);
-        }
-
-        // POST: Appointments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            _servicesAppointment.DeleteAppointment(id);
-            return RedirectToAction(nameof(Index));
-        }
 
   
 
@@ -248,5 +220,9 @@ namespace Health.Web.App.Controllers
         {
             return _servicesAppointment.AppointmentsExists(id);
         }
+        
+
     }
+
+ 
 }

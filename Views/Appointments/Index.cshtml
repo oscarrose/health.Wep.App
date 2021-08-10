@@ -89,15 +89,37 @@
                     </td>
                     <td>
                         <a class="btn btn-warning btn-sm w-30" asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a>
-                       
-                        
-                      <a class="btn btn-info btn-sm w-30" asp-action="Details" asp-route-id="@item.AppointmentId">Start appointments</a>
-                         
 
-                        @*<a class="btn btn-danger btn-sm w-30" asp-action="Delete" asp-route-id="@item.AppointmentId">Delete</a>*@
+                        <form method="post">
+                            <a class="btn btn-info btn-sm w-30" id="btn-time-start" asp-action="Details" asp-route-id="@item.AppointmentId">Start appointments</a>
+
+                        </form>
+                        
+                       
                     </td>
                 </tr>
              }
         </tbody>
     </table>
 </div>
+
+@*@section   Scripts{ 
+
+    <script>
+        
+
+        const BtnTimeStart = document.querySelector('#btn-time-start')
+
+        BtnTimeStart.addEventListener("Click", function () {
+
+            const time = new Date();
+            fetch("/Appointments/Details/1"), {
+                method: 'POST',
+                body: time
+            };
+
+        });
+
+    </script>
+}*@ 
+

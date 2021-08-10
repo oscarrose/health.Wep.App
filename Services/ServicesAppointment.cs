@@ -20,7 +20,7 @@ namespace Health.Web.App.Services
 
         public static DateTime thisStart;
         public static DateTime thisEnd;
-        public string geemail { get; set; }
+ 
         public ServicesAppointment(SaludWebAppContext saludWebApp)
         {
             _saludAppointment = saludWebApp;
@@ -136,10 +136,7 @@ namespace Health.Web.App.Services
           return  _saludAppointment.Appointments.Find(id);
         }
 
-        public void GetTime(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+
 
         /// <summary>
         /// for save the information the trancking
@@ -147,15 +144,19 @@ namespace Health.Web.App.Services
         /// <param name="AppointId"></param>
         /// <param name="Start"></param>
         /// <param name="End"></param>
+        //public void InsertTrancking(int AppointId, DateTime Start, DateTime End)
+        //{
+          
+
+        //}
+
         public void InsertTrancking(int AppointId, DateTime Start, DateTime End)
         {
             var connection = _saludAppointment.Database.GetDbConnection();
 
             var procedure = "Insert_trancking";
-            var values = new { AppointmentID=AppointId, StartTime = Start, EndTime = End };
+            var values = new { AppointmentID = AppointId, StartTime = Start, EndTime = End };
             var result = connection.Query(procedure, values, commandType: CommandType.StoredProcedure);
         }
-
-      
     }
 }
