@@ -10,18 +10,17 @@ using Health.Web.App.Models;
 using Health.Web.App.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Health.Web.App.Controllers
 {
-    [Authorize(Roles = "Doctor")]
-    [Authorize(Roles = "Secretary")]
     public class AppointmentsController : Controller
     {
         private readonly SaludWebAppContext _context;
         private readonly IServicesAppointment _servicesAppointment;
         private readonly IEmailSender _emailSend;
       
+
+
         public AppointmentsController(SaludWebAppContext context, IServicesAppointment servicesAppointment, IEmailSender emailSend)
         {
             _context = context;
@@ -39,10 +38,7 @@ namespace Health.Web.App.Controllers
 
         }
 
-
-
         // GET: Appointments/Details/5 for start a appointments
-        [Authorize(Roles = "Doctor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -63,7 +59,6 @@ namespace Health.Web.App.Controllers
             return View(appointment);
         }
 
-   
         // GET: Appointments/Create
         public IActionResult Create()
         {
@@ -75,11 +70,8 @@ namespace Health.Web.App.Controllers
         // POST: Appointments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Doctor")]
-        [Authorize(Roles = "Secretary")]
         public async Task<IActionResult> Create([Bind("AppointmentId,AccountDoctorId,PatientId,DateAppointments,StartTime,EndTime,Status,Comment,SendEmailConfirmed")] Appointment appointment)
         {
             if (ModelState.IsValid)
@@ -97,9 +89,8 @@ namespace Health.Web.App.Controllers
             return View(appointment);
         }
 
-        [Authorize(Roles = "Doctor")]
         // GET: Appointments/Edit/5
-        public IActionResult Edit(int? id)
+       public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -116,14 +107,12 @@ namespace Health.Web.App.Controllers
             return View (appointment);
         }
 
-
+       
         // POST: Appointments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Doctor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-       
         public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AccountDoctorId,PatientId,DateAppointments,StartTime,EndTime,Status,Comment,SendEmailConfirmed")] Appointment appointment)
         {
            
@@ -138,12 +127,6 @@ namespace Health.Web.App.Controllers
                 try
                 {
                     _servicesAppointment.Editappointments(appointment);
-                    _servicesAppointment.GetEmailPatients(appointment.PatientId);
-                    _servicesAppointment.SendNotificationAppointEdit(appointment.Status, appointment.DateAppointments.ToString(), appointment.StartTime.ToString(), appointment.EndTime.ToString());
-                    await _emailSend.SendEmailAsync(ServicesAppointment.Get_Email_Patient_ForAppoint, "Update your appointment",
-                   $"{ServicesAppointment.GetmessageEdit} ");
-
-                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -165,7 +148,7 @@ namespace Health.Web.App.Controllers
         }
 
 
-        [Authorize(Roles = "Doctor")]
+
         // GET: Appointments/end appointments
         public IActionResult EndAppoint(int? id)
         {
@@ -190,7 +173,7 @@ namespace Health.Web.App.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize(Roles = "Doctor")]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EndAppoint(int id, [Bind("AppointmentId,AccountDoctorId,PatientId,DateAppointments,StartTime,EndTime,Status,Comment,SendEmailConfirmed")] Appointment appointment)

@@ -487,6 +487,7 @@ C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software
 C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\ref\Health.Web.App.dll
 C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Health.Web.App.pdb
 C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Health.Web.App.genruntimeconfig.cache
+C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Health.Web.App.csprojAssemblyReference.cache
 C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Razor\Views\Appointments\EndAppoint.cshtml.g.cs
 C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\bin\Debug\net5.0\DocumentFormat.OpenXml.dll
 C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\bin\Debug\net5.0\System.IO.Packaging.dll
@@ -494,8 +495,3 @@ C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software
 C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Razor\Views\TranckingAppointments\Index.cshtml.g.cs
 C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Razor\Views\HistoryAppointments\Details.cshtml.g.cs
 C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Razor\Views\HistoryAppointments\Index.cshtml.g.cs
-C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Health.Web.App.csprojAssemblyReference.cache
-C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Razor\Views\RoleControllercs\Index.cshtml.g.cs
-C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\obj\Debug\net5.0\Razor\Views\RoleControllercs\Create.cshtml.g.cs
-C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\bin\Debug\net5.0\Microsoft.PowerBI.Api.dll
-C:\Users\oscar\OneDrive - Universidad Central del Este\universidad ing. Software\Septimo cuatrimestre\programacion avanzada\Proyecto final\Health.Web.App\bin\Debug\net5.0\Microsoft.Rest.ClientRuntime.dll

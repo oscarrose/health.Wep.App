@@ -16,8 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Health.Web.App.Controllers
 {
-    [Authorize(Roles = "Secretary")]
-    [Authorize(Roles = "Doctor")]
+    [AllowAnonymous]
     public class PatientsController : Controller
     {
  
@@ -42,7 +41,7 @@ namespace Health.Web.App.Controllers
         {
             return View(await _servicesPatients.GetPatients(SearchString));
         }
-       
+
         // GET: Patients/Details/5
         public IActionResult Details(int? id)
         {
@@ -59,7 +58,7 @@ namespace Health.Web.App.Controllers
 
             return View(patient);
         }
-       
+
         // GET: Patients/Create
         public IActionResult Create()
         {
@@ -69,8 +68,6 @@ namespace Health.Web.App.Controllers
         // POST: Patients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Secretary")]
-        [Authorize(Roles = "Doctor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PatientId,FirstName,LastName,Email,Dni,DateBirth,NumberPhone,Country,City,Street,HealthInsurance,Disease,AllergicMedicine,SendEmailConfirmed")] Patient patient)
@@ -97,7 +94,6 @@ namespace Health.Web.App.Controllers
         }
 
         // GET: Patients/Edit/5
-       
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -118,8 +114,6 @@ namespace Health.Web.App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Secretary")]
-        [Authorize(Roles = "Doctor")]
         public async Task<IActionResult> Edit(int id, [Bind("PatientId,FirstName,LastName,Email,Dni,DateBirth,NumberPhone,Country,City,Street,HealthInsurance,Disease,AllergicMedicine,SendEmailConfirmed")] Patient patient)
         {
             if (id != patient.PatientId)
@@ -132,6 +126,8 @@ namespace Health.Web.App.Controllers
                 try
                 {
                     _servicesPatients.EditPatients(patient);
+
+
                     _servicesPatients.SendDateOfPatients(patient.Email, patient.FirstName, patient.LastName, patient.Dni, patient.DateBirth.ToString(), patient.NumberPhone,
                         patient.Country, patient.City, patient.Street, patient.HealthInsurance, patient.Disease, patient.AllergicMedicine);
 
@@ -180,8 +176,6 @@ namespace Health.Web.App.Controllers
         // POST: Patients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-      
-        [Authorize(Roles = "Doctor")]
         public IActionResult DeleteConfirmed(int id)
         {
             _servicesPatients.DeletePatients(id);
