@@ -11,16 +11,19 @@ using System.Data;
 
 namespace Health.Web.App.Services
 {
-   
+  
     public class ServicesAppointment : IServicesAppointment
     {
         public static string GetMessageAppoint;
+        public static string GetmessageEdit;
         public static string Get_Email_Patient_ForAppoint;
        private readonly SaludWebAppContext _saludAppointment;
 
         public static DateTime thisStart;
         public static DateTime thisEnd;
- 
+      
+     
+
         public ServicesAppointment(SaludWebAppContext saludWebApp)
         {
             _saludAppointment = saludWebApp;
@@ -157,6 +160,15 @@ namespace Health.Web.App.Services
             var procedure = "Insert_trancking";
             var values = new { AppointmentID = AppointId, StartTime = Start, EndTime = End };
             var result = connection.Query(procedure, values, commandType: CommandType.StoredProcedure);
+        }
+
+        public void SendNotificationAppointEdit(string status, string DateAppoint, string DateStart, string DateEnd)
+        {
+
+             GetmessageEdit = $"Hello, Your appointment has had a modification," +
+                 $"your status is: {status}, the established date:{DateAppoint}" +
+                 $"on schedule {DateStart} a {DateEnd}";
+
         }
     }
 }

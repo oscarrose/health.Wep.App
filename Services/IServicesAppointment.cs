@@ -8,8 +8,7 @@ namespace Health.Web.App.Services
     
     public interface IServicesAppointment
     {
-       
-
+        void SendNotificationAppointEdit( string status, string DateAppoint,string DateStart, string DateEnd);
         void InsertTrancking(int AppointId, DateTime Start, DateTime End);
         Task<IEnumerable<Appointment>> GetAppointment(string status, string patientsSearch);
         Appointment GetDetailAppoint(int? id);

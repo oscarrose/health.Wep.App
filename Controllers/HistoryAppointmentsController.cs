@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Health.Web.App.Data;
 using Health.Web.App.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Health.Web.App.Controllers
 {
+    [Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Secretary")]
     public class HistoryAppointmentsController : Controller
     {
         private readonly SaludWebAppContext _context;
