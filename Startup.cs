@@ -33,8 +33,7 @@ namespace Health.Web.App
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-          
-         
+
             //Configure dbcontext of models
             services.AddDbContext<SaludWebAppContext>((options) =>
             {
@@ -45,15 +44,21 @@ namespace Health.Web.App
             //Add my services 
             services.AddScoped<IServicesPatients, ServicesPatients>();
             services.AddScoped<IServicesAppointment, ServicesAppointment>();
-          
+
+         
+           
+
+
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+           
             services.AddControllersWithViews();
+           
 
-        
+
             // requires
             // using Microsoft.AspNetCore.Identity.UI.Services;
             // using WebPWrecover.Services;

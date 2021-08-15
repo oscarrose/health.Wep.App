@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<Health.Web.App.Models.Appointment>
+@addTagHelper *, Vereyon.Web.FlashMessage
+
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Appointments</h1>
+<flash dismissable="true" />
 
 <p>
     <a class="btn btn-outline-primary btn-lg" asp-action="Create">Create New</a>
@@ -12,19 +15,19 @@
 
 <hr />
 
-    <form asp-controller="Appointments" asp-action="Index" method="get">
-        <p>
-            <select name="status">
-                <option value=""></option>
-                <option value="pending">pending</option>
-                <option value="completed">completed</option>
-                <option value="cancelled">cancelled</option>
-            </select>
+<form asp-controller="Appointments" asp-action="Index" method="get">
+    <p>
+        Status: <select name="status">
+            <option value=""></option>
+            <option value="pending">pending</option>
+            <option value="completed">completed</option>
+            <option value="cancelled">cancelled</option>
+        </select>
 
-            Status: <input type="text" class="txt text-sm-left" name="patientsSearch" />
-            <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
-        </p>
-    </form>
+        Patiend Id: <input type="text" class="txt text-sm-left" name="patientsSearch" />
+        <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
+    </p>
+</form>
 
 <div class="table-responsive">
     <table class="table-sm table table-bordered border-dark">
@@ -34,13 +37,13 @@
                     Appointment Id
                 </th>
                 <th>
-                  Patient 
+                    Patient
                 </th>
                 <th>
-                  Doctor 
+                    Doctor
                 </th>
                 <th>
-                   Date
+                    Date
                 </th>
                 <th>
                     Start Time
@@ -94,32 +97,32 @@
                             <a class="btn btn-info btn-sm w-30" id="btn-time-start" asp-action="Details" asp-route-id="@item.AppointmentId">Start appointments</a>
 
                         </form>
-                        
-                       
+
+
                     </td>
                 </tr>
-             }
+            }
         </tbody>
     </table>
 </div>
 
-@*@section   Scripts{ 
+@*@section   Scripts{
 
-    <script>
-        
+        <script>
 
-        const BtnTimeStart = document.querySelector('#btn-time-start')
 
-        BtnTimeStart.addEventListener("Click", function () {
+            const BtnTimeStart = document.querySelector('#btn-time-start')
 
-            const time = new Date();
-            fetch("/Appointments/Details/1"), {
-                method: 'POST',
-                body: time
-            };
+            BtnTimeStart.addEventListener("Click", function () {
 
-        });
+                const time = new Date();
+                fetch("/Appointments/Details/1"), {
+                    method: 'POST',
+                    body: time
+                };
 
-    </script>
-}*@ 
+            });
+
+        </script>
+    }*@
 

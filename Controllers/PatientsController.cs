@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Health.Web.App.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Doctor,Secretary")]
     public class PatientsController : Controller
     {
  
@@ -43,6 +43,7 @@ namespace Health.Web.App.Controllers
         }
 
         // GET: Patients/Details/5
+        [Authorize(Roles = "Doctor,Secretary")]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -68,8 +69,10 @@ namespace Health.Web.App.Controllers
         // POST: Patients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Doctor,Secretary")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+       
         public async Task<IActionResult> Create([Bind("PatientId,FirstName,LastName,Email,Dni,DateBirth,NumberPhone,Country,City,Street,HealthInsurance,Disease,AllergicMedicine,SendEmailConfirmed")] Patient patient)
         {
             if (ModelState.IsValid)     
@@ -112,8 +115,10 @@ namespace Health.Web.App.Controllers
         // POST: Patients/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Doctor,Secretary")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+       
         public async Task<IActionResult> Edit(int id, [Bind("PatientId,FirstName,LastName,Email,Dni,DateBirth,NumberPhone,Country,City,Street,HealthInsurance,Disease,AllergicMedicine,SendEmailConfirmed")] Patient patient)
         {
             if (id != patient.PatientId)
@@ -174,8 +179,10 @@ namespace Health.Web.App.Controllers
         }
 
         // POST: Patients/Delete/5
+        [Authorize(Roles = "Doctor")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        
         public IActionResult DeleteConfirmed(int id)
         {
             _servicesPatients.DeletePatients(id);

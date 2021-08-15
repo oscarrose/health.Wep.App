@@ -26,6 +26,9 @@
     <script src="~/js/site.js"></script>
 
 </head>
+
+
+
 <body>
     <div class="d-flex" id="wrapper">
         <!-- ============================================================== -->
@@ -46,7 +49,7 @@
                     <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">Appointments</a>
                     <a class="nav-link text-dark" asp-area="" asp-controller="TranckingAppointments" asp-action="Index">Trancking Appointments</a>
                     <a class="nav-link text-dark" asp-area="" asp-controller="HistoryAppointments" asp-action="Index">History Appointments</a>
-                  
+
                 }
                 else
                 {
@@ -76,13 +79,17 @@
                 </div>
             </nav>
             <div class="container-fluid">
+
                 @RenderBody()
             </div>
         </div>
         <!-- ============================================================== -->
         <!-- End Page Content -->
         <!-- ============================================================== -->
+
+
     </div>
+    
 
     <!-- ============================================================== -->
     <!-- Menu Toggle Script -->

@@ -16,6 +16,7 @@ namespace Health.Web.App.Services
     {
         public static string GetMessageAppoint;
         public static string Get_Email_Patient_ForAppoint;
+        public static string Get_Message_Update_Appoint;
        private readonly SaludWebAppContext _saludAppointment;
 
         public static DateTime thisStart;
@@ -157,6 +158,20 @@ namespace Health.Web.App.Services
             var procedure = "Insert_trancking";
             var values = new { AppointmentID = AppointId, StartTime = Start, EndTime = End };
             var result = connection.Query(procedure, values, commandType: CommandType.StoredProcedure);
+        }
+
+        public void SendUpdateAppointment(string status, string DateAppoint, string StartTime, string EndTime)
+        {
+            Get_Message_Update_Appoint = $"Hello, your appointment has had an update..." +
+                $"The status of the appointment is: {status},in the date: {DateAppoint}, on schedule{StartTime} to {EndTime}" +
+                $"Any doubt or inconvenience to communicate with us to one service to the client. Have a good time.";
+                
+
+        }
+
+        public bool DisponibleAppointment(string accountDoctorId, DateTime DateAppoitment, TimeSpan startTime, TimeSpan endTime)
+        {
+            return _saludAppointment.Appointments.Any(e => e.AccountDoctorId == accountDoctorId && e.DateAppointments==DateAppoitment && e.StartTime == startTime && e.EndTime == endTime);
         }
     }
 }

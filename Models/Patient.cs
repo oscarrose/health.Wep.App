@@ -17,7 +17,6 @@ namespace Health.Web.App.Models
             Appointments = new HashSet<Appointment>();
             HistoryAppointments = new HashSet<HistoryAppointment>();
         }
-     
 
         [Key]
         [Column("PatientID")]
@@ -28,7 +27,7 @@ namespace Health.Web.App.Models
         public string FirstName { get; set; }
         [Required]
         [StringLength(25)]
-         [DisplayName("Last Name")]
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
         [Required]
         [Column("DNI")]
@@ -40,6 +39,7 @@ namespace Health.Web.App.Models
         public DateTime DateBirth { get; set; }
         [StringLength(20)]
         [DisplayName("Phone")]
+
         public string NumberPhone { get; set; }
         [Required]
         [StringLength(30)]
@@ -52,12 +52,10 @@ namespace Health.Web.App.Models
         [StringLength(30)]
         public string Street { get; set; }
         [StringLength(25)]
-        [DisplayName("Health Insurance")]
         public string HealthInsurance { get; set; }
         [StringLength(25)]
         public string Disease { get; set; }
         [StringLength(25)]
-        [DisplayName("Allergic Medicine")]
         public string AllergicMedicine { get; set; }
         public bool? SendEmailConfirmed { get; set; }
         [StringLength(100)]
@@ -67,12 +65,5 @@ namespace Health.Web.App.Models
         public virtual ICollection<Appointment> Appointments { get; set; }
         [InverseProperty(nameof(HistoryAppointment.Patient))]
         public virtual ICollection<HistoryAppointment> HistoryAppointments { get; set; }
-
-        internal object ToList()
-        {
-            throw new NotImplementedException();
-        }
     }
-
-   
 }

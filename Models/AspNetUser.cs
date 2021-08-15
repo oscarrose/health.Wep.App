@@ -18,6 +18,8 @@ namespace Health.Web.App.Models
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             AspNetUserRoles = new HashSet<AspNetUserRole>();
             AspNetUserTokens = new HashSet<AspNetUserToken>();
+            DoctorV1s = new HashSet<DoctorV1>();
+            Doctors = new HashSet<Doctor>();
         }
 
         [Key]
@@ -51,5 +53,9 @@ namespace Health.Web.App.Models
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         [InverseProperty(nameof(AspNetUserToken.User))]
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
+        [InverseProperty(nameof(DoctorV1.AccountDoctor))]
+        public virtual ICollection<DoctorV1> DoctorV1s { get; set; }
+        [InverseProperty(nameof(Doctor.AccountDoctor))]
+        public virtual ICollection<Doctor> Doctors { get; set; }
     }
 }

@@ -10,34 +10,46 @@ using Health.Web.App.Models;
 using Health.Web.App.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authorization;
+
+
 
 namespace Health.Web.App.Controllers
 {
+    [Authorize(Roles = "Doctor,Secretary")]
     public class AppointmentsController : Controller
     {
         private readonly SaludWebAppContext _context;
         private readonly IServicesAppointment _servicesAppointment;
         private readonly IEmailSender _emailSend;
-      
-
+       
 
         public AppointmentsController(SaludWebAppContext context, IServicesAppointment servicesAppointment, IEmailSender emailSend)
         {
             _context = context;
             _servicesAppointment = servicesAppointment;
             _emailSend = emailSend;
+           
         }
        
 
         // GET: Appointments
         public async Task<IActionResult> Index(string status, string patientsSearch)
         {
+            
 
             return View(await _servicesAppointment.GetAppointment(status, patientsSearch));
+            
 
+
+            //f.Flash(Types.Success, "Flash message system for ASP.NET MVC Core", dismissable: true);
+            //f.Flash(Types.Danger, "Flash message system for ASP.NET MVC Core", dismissable: false);
 
         }
 
+
+
+        [Authorize(Roles ="Doctor")]
         // GET: Appointments/Details/5 for start a appointments
         public async Task<IActionResult> Details(int? id)
         {
@@ -47,12 +59,18 @@ namespace Health.Web.App.Controllers
             }
 
            var appointment= _servicesAppointment.GetDetailAppoint(id);
-           ServicesAppointment.thisStart = DateTime.Now;
+            if (appointment.Status == "completed")
+            {
+
+                return RedirectToAction(nameof(Index));
+            }
+            ServicesAppointment.thisStart = DateTime.Now;
 
             if (appointment == null)
             {
                 return NotFound();
             }
+            //for see trancking
             ViewBag.Start = ServicesAppointment.thisStart;
             ViewBag.Appoint = id;
 
@@ -62,7 +80,7 @@ namespace Health.Web.App.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id");
+            ViewData["AccountDoctorId"] = new SelectList(_context.Doctors, "AccountDoctorId", "Email");
             ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni");
             return View();
         }
@@ -70,49 +88,72 @@ namespace Health.Web.App.Controllers
         // POST: Appointments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Doctor,Secretary")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+       
         public async Task<IActionResult> Create([Bind("AppointmentId,AccountDoctorId,PatientId,DateAppointments,StartTime,EndTime,Status,Comment,SendEmailConfirmed")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
-                _servicesAppointment.CreateAppointments(appointment);
-                _servicesAppointment.GetEmailPatients(appointment.PatientId);
-                _servicesAppointment.MessageAppoint(appointment.PatientId, appointment.AccountDoctorId,appointment.DateAppointments.ToLongDateString(),appointment.StartTime.ToString(), appointment.EndTime.ToString());
+                if (_servicesAppointment.DisponibleAppointment(appointment.AccountDoctorId,appointment.DateAppointments, appointment.StartTime, appointment.EndTime))
+                {
+                    ModelState.AddModelError(string.Empty, "Appointment time not available, please select another.");
 
-                await _emailSend.SendEmailAsync(ServicesAppointment.Get_Email_Patient_ForAppoint, "Confirmation of your appointment",
-                    $"{ServicesAppointment.GetMessageAppoint} ");
-                return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    _servicesAppointment.CreateAppointments(appointment);
+                    _servicesAppointment.GetEmailPatients(appointment.PatientId);
+                    _servicesAppointment.MessageAppoint(appointment.PatientId, appointment.AccountDoctorId, appointment.DateAppointments.ToLongDateString(), appointment.StartTime.ToString(), appointment.EndTime.ToString());
+
+                    await _emailSend.SendEmailAsync(ServicesAppointment.Get_Email_Patient_ForAppoint, "Confirmation of your appointment",
+                        $"{ServicesAppointment.GetMessageAppoint} ");
+                    return RedirectToAction(nameof(Index));
+                }
+
+
             }
-            ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
+            ViewData["AccountDoctorId"] = new SelectList(_context.Doctors, "AccountDoctorId", "Email");
             ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
             return View(appointment);
         }
 
         // GET: Appointments/Edit/5
-       public IActionResult Edit(int? id)
+        [Authorize(Roles = "Doctor")]
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
+
             var appointment = _servicesAppointment.GetAppointEdit(id);
+            if (appointment.Status == "completed")
+            {
+
+                return RedirectToAction(nameof(Index));
+            }
+           
+
             if (appointment == null)
             {
                 return NotFound();
             }
-            ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
+            ViewData["AccountDoctorId"] = new SelectList(_context.Doctors, "AccountDoctorId", "Email");
             ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
             return View (appointment);
         }
 
-       
+
         // POST: Appointments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Doctor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+      
         public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AccountDoctorId,PatientId,DateAppointments,StartTime,EndTime,Status,Comment,SendEmailConfirmed")] Appointment appointment)
         {
            
@@ -121,12 +162,19 @@ namespace Health.Web.App.Controllers
                 
                 return NotFound();
             }
+            
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     _servicesAppointment.Editappointments(appointment);
+                    _servicesAppointment.GetEmailPatients(appointment.PatientId);
+                    _servicesAppointment.SendUpdateAppointment(appointment.Status, appointment.DateAppointments.ToString(), appointment.StartTime.ToString(),appointment.EndTime.ToString());
+
+                    await _emailSend.SendEmailAsync(ServicesAppointment.Get_Email_Patient_ForAppoint, "Update your appointment",
+                        $"{ServicesAppointment.Get_Message_Update_Appoint} ");
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -142,7 +190,7 @@ namespace Health.Web.App.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
+            ViewData["AccountDoctorId"] = new SelectList(_context.Doctors, "AccountDoctorId", "Email");
             ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
             return View(appointment);
         }
@@ -150,6 +198,7 @@ namespace Health.Web.App.Controllers
 
 
         // GET: Appointments/end appointments
+        [Authorize(Roles ="Doctor")]
         public IActionResult EndAppoint(int? id)
         {
             if (id == null)
@@ -163,7 +212,7 @@ namespace Health.Web.App.Controllers
             {
                 return NotFound();
             }
-            ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
+            ViewData["AccountDoctorId"] = new SelectList(_context.Doctors, "AccountDoctorId", "Email");
             ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
             return View(appointment);
         }
@@ -173,9 +222,10 @@ namespace Health.Web.App.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-
+        [Authorize(Roles = "Doctor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+       
         public async Task<IActionResult> EndAppoint(int id, [Bind("AppointmentId,AccountDoctorId,PatientId,DateAppointments,StartTime,EndTime,Status,Comment,SendEmailConfirmed")] Appointment appointment)
         {
 
@@ -207,7 +257,7 @@ namespace Health.Web.App.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountDoctorId"] = new SelectList(_context.AspNetUsers, "Id", "Id", appointment.AccountDoctorId);
+            ViewData["AccountDoctorId"] = new SelectList(_context.Doctors, "AccountDoctorId", "Email");
             ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Dni", appointment.PatientId);
             return View(appointment);
         }

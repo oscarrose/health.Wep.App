@@ -15,6 +15,10 @@ namespace Health.Web.App.Models
         [Column("DoctorID")]
         public int DoctorId { get; set; }
         [Required]
+        [Column("AccountDoctorID")]
+        [StringLength(450)]
+        public string AccountDoctorId { get; set; }
+        [Required]
         [StringLength(20)]
         public string FirstName { get; set; }
         [Required]
@@ -30,5 +34,9 @@ namespace Health.Web.App.Models
         [Required]
         [StringLength(30)]
         public string Email { get; set; }
+
+        [ForeignKey(nameof(AccountDoctorId))]
+        [InverseProperty(nameof(AspNetUser.Doctors))]
+        public virtual AspNetUser AccountDoctor { get; set; }
     }
 }

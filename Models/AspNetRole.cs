@@ -12,6 +12,7 @@ namespace Health.Web.App.Models
     {
         public AspNetRole()
         {
+            AspNetRoleClaims = new HashSet<AspNetRoleClaim>();
             AspNetUserRoles = new HashSet<AspNetUserRole>();
         }
 
@@ -23,6 +24,8 @@ namespace Health.Web.App.Models
         public string NormalizedName { get; set; }
         public string ConcurrencyStamp { get; set; }
 
+        [InverseProperty(nameof(AspNetRoleClaim.Role))]
+        public virtual ICollection<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         [InverseProperty(nameof(AspNetUserRole.Role))]
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
     }

@@ -17,8 +17,6 @@ namespace Health.Web.App.Models
             TranckingAppointments = new HashSet<TranckingAppointment>();
         }
 
-
-
         [Key]
         [Column("AppointmentID")]
         [DisplayName("Appointment Id")]

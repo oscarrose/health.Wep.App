@@ -25,7 +25,7 @@ namespace Health.Web.App.Data
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
-        public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<DoctorV1> Doctors { get; set; }
         public virtual DbSet<HistoryAppointment> HistoryAppointments { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<TranckingAppointment> TranckingAppointments { get; set; }
@@ -89,19 +89,19 @@ namespace Health.Web.App.Data
                 entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
             });
 
-            modelBuilder.Entity<Doctor>(entity =>
+            modelBuilder.Entity<DoctorV1>(entity =>
             {
-                entity.Property(e => e.AccountType).IsUnicode(false);
+                entity.Property(e => e.DoctorId).IsUnicode(false);
 
                 entity.Property(e => e.Email).IsUnicode(false);
 
-                entity.Property(e => e.FirstName).IsUnicode(false);
+                entity.Property(e => e.AccountDoctorId).IsUnicode(false);
 
-                entity.Property(e => e.LastName).IsUnicode(false);
+                //entity.Property(e => e.LastName).IsUnicode(false);
 
-                entity.Property(e => e.NumberPhone).IsUnicode(false);
+                //entity.Property(e => e.NumberPhone).IsUnicode(false);
 
-                entity.Property(e => e.Speciality).IsUnicode(false);
+                //entity.Property(e => e.Speciality).IsUnicode(false);
             });
 
             modelBuilder.Entity<HistoryAppointment>(entity =>
