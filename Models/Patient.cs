@@ -52,11 +52,15 @@ namespace Health.Web.App.Models
         [StringLength(30)]
         public string Street { get; set; }
         [StringLength(25)]
+        [DisplayName("Health insurance")]
         public string HealthInsurance { get; set; }
         [StringLength(25)]
         public string Disease { get; set; }
         [StringLength(25)]
+        [DisplayName("Allergic medicine")]
         public string AllergicMedicine { get; set; }
+
+        [DisplayName("Confirmed Email")]
         public bool? SendEmailConfirmed { get; set; }
         [StringLength(100)]
         public string Email { get; set; }

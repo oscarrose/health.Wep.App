@@ -13,44 +13,40 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authorization;
 
 
-
 namespace Health.Web.App.Controllers
 {
+   
     [Authorize(Roles = "Doctor,Secretary")]
     public class AppointmentsController : Controller
     {
         private readonly SaludWebAppContext _context;
         private readonly IServicesAppointment _servicesAppointment;
         private readonly IEmailSender _emailSend;
-       
+      
 
         public AppointmentsController(SaludWebAppContext context, IServicesAppointment servicesAppointment, IEmailSender emailSend)
         {
             _context = context;
             _servicesAppointment = servicesAppointment;
             _emailSend = emailSend;
-           
+         
         }
-       
 
+    
         // GET: Appointments
         public async Task<IActionResult> Index(string status, string patientsSearch)
         {
-            
 
+            ViewBag.SendNotify = TempData["SendNotify"] as string;
             return View(await _servicesAppointment.GetAppointment(status, patientsSearch));
-            
-
-
-            //f.Flash(Types.Success, "Flash message system for ASP.NET MVC Core", dismissable: true);
-            //f.Flash(Types.Danger, "Flash message system for ASP.NET MVC Core", dismissable: false);
+           
 
         }
 
 
 
         [Authorize(Roles ="Doctor")]
-        // GET: Appointments/Details/5 for start a appointments
+        // GET: Appointments/Details/ for start a appointments
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -59,8 +55,10 @@ namespace Health.Web.App.Controllers
             }
 
            var appointment= _servicesAppointment.GetDetailAppoint(id);
+
             if (appointment.Status == "completed")
             {
+                TempData["SendNotifyStatus"] = "The appointment was completed!";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -96,10 +94,12 @@ namespace Health.Web.App.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_servicesAppointment.DisponibleAppointment(appointment.AccountDoctorId,appointment.DateAppointments, appointment.StartTime, appointment.EndTime))
+                if ( _servicesAppointment.DisponibleAppointment(appointment.AccountDoctorId,appointment.DateAppointments, appointment.StartTime, appointment.EndTime))
                 {
-                    ModelState.AddModelError(string.Empty, "Appointment time not available, please select another.");
-
+                    //for the notify when the schedule no esta disponible
+                    TempData["notify"] = "Schedule not available";
+                  
+                  
                 }
                 else
                 {
@@ -109,7 +109,9 @@ namespace Health.Web.App.Controllers
 
                     await _emailSend.SendEmailAsync(ServicesAppointment.Get_Email_Patient_ForAppoint, "Confirmation of your appointment",
                         $"{ServicesAppointment.GetMessageAppoint} ");
+                    TempData["SendNotify"] = "Appointment correctly registered";
                     return RedirectToAction(nameof(Index));
+
                 }
 
 
@@ -130,9 +132,10 @@ namespace Health.Web.App.Controllers
 
 
             var appointment = _servicesAppointment.GetAppointEdit(id);
+
             if (appointment.Status == "completed")
             {
-
+                TempData["SendNotifyStatus"] = "The appointment was completed!";
                 return RedirectToAction(nameof(Index));
             }
            
@@ -241,6 +244,7 @@ namespace Health.Web.App.Controllers
                 {
                     _servicesAppointment.InsertTrancking(id,ServicesAppointment.thisStart, ServicesAppointment.thisEnd);
                      _servicesAppointment.Editappointments(appointment);
+                    TempData["SendNotify"] = "Appointment ended successfully";
                    
                 }
                 catch (DbUpdateConcurrencyException)
@@ -272,7 +276,8 @@ namespace Health.Web.App.Controllers
         }
         
 
+
     }
 
- 
+
 }

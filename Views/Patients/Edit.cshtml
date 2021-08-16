@@ -47,7 +47,7 @@
             </div>
             <div class="col order- first">
                 <label asp-for="DateBirth" class="control-label"></label>
-                <input asp-for="DateBirth" class="form-control" />
+                <input type="date" asp-for="DateBirth" class="form-control" />
                 <span asp-validation-for="DateBirth" class="text-danger"></span>
             </div>
             <div class="col">
@@ -109,13 +109,13 @@
                 <label asp-for="Disease" class="control-label"></label>
                 <select asp-for="Disease" class="form-control">
 
-                    <option value="Ninguna">Ninguna</option>
-                    <option value="Antrax">Antrax</option>
+                    <option value="None">None</option>
+                    <option value="Alergia">Alergia</option>
                     <option value="Cancer">Cancer</option>
-                    <option value="Clamidia">Clamidia</option>
-                    <option value="Culebrilla (herpes zóster)">Culebrilla (herpes zóster)</option>
+                    <option value="Neumonía">Neumonía</option>
+                    <option value="Acné">Acné</option>
                     <option value="Diabetes">Diabetes</option>
-                    <option value="Meningitis">Meningitis</option>
+                    <option value="Úlcera">Úlcera</option>
                     <option value="Epilepsia">Epilepsia</option>
                 </select>
                 <span asp-validation-for="Disease" class="text-danger"></span>
@@ -124,12 +124,12 @@
             <div class="col">
                 <label asp-for="AllergicMedicine" class="control-label"></label>
                 <select asp-for="AllergicMedicine" class="form-control">
-                    <option value="Ninguna">Ninguna</option>
+                    <option value="None">None</option>
                     <option value="Cetirizine">Cetirizine </option>
-                    <option value="Fexofenadine">Desloratadine </option>
-                    <option value="Levocetirizine">Levocetirizine</option>
-                    <option value="Loratadin">ARS ARS Humano</option>
-                    <option value="Alergia farmacológica">Alergia farmacológica</option>
+                    <option value="Warfarina ">Warfarina</option>
+                    <option value="Adrenalina">Adrenalina`</option>
+                    <option value="Enoxaparina">Enoxaparina</option>
+                    <option value="Ranitidina">Ranitidina</option>
                     <option value="other">other</option>
 
 
@@ -143,11 +143,11 @@
             <div class="col order-last">
                 <label asp-for="HealthInsurance" class="control-label"></label>
                 <select asp-for="HealthInsurance" class="form-control">
-                    <option value="Ninguna">Ninguna</option>
+                    <option value="None">None</option>
                     <option value="ARS">ARS</option>
                     <option value="ARS SIMAG">ARS SIMAG</option>
                     <option value="ARS APS">ARS APS</option>
-                    <option value="ARS Humano">ARS ARS Humano</option>
+                    <option value="ARS Humano">ARS Humano</option>
                     <option value="ARS SEMMA">ARS SEMMA</option>
                     <option value="ARS Palic">ARS Palic</option>
                     <option value="Humano Seguros">Humano Seguros</option>

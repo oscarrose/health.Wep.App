@@ -1,3 +1,4 @@
+using AspNetCoreHero.ToastNotification;
 using Health.Web.App.Data;
 using Health.Web.App.Services;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace Health.Web.App
 {
@@ -45,8 +47,16 @@ namespace Health.Web.App
             services.AddScoped<IServicesPatients, ServicesPatients>();
             services.AddScoped<IServicesAppointment, ServicesAppointment>();
 
-         
-           
+
+            //ToastNotification;
+            //services.AddNotyf(config=> {
+            //    config.DurationInSeconds = 10;
+            //    config.IsDismissable = true;
+            //    config.Position = NotyfPosition.TopRight;
+            
+            
+            
+            //});
 
 
 
@@ -70,6 +80,7 @@ namespace Health.Web.App
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

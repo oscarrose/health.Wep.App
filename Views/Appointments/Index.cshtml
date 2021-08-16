@@ -1,13 +1,24 @@
 ﻿@model IEnumerable<Health.Web.App.Models.Appointment>
-@addTagHelper *, Vereyon.Web.FlashMessage
-
 
 @{
     ViewData["Title"] = "Index";
 }
 
+@if (TempData["SendNotifyStatus"] != null)
+{
+        <div class="alert alert-danger alert-dismissible fade  show">
+            <strong>@TempData["SendNotifyStatus"]</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+        </div>
+    
+}
+
 <h1>Appointments</h1>
-<flash dismissable="true" />
+
 
 <p>
     <a class="btn btn-outline-primary btn-lg" asp-action="Create">Create New</a>
@@ -106,23 +117,28 @@
     </table>
 </div>
 
-@*@section   Scripts{
 
-        <script>
+@section Scripts{
 
+    <script src="~/limonte-sweetalert2/sweetalert2.min.js"></script>
+    <link href="~/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script>
+        var msgnotify = "@((string)ViewBag.SendNotify)";
 
-            const BtnTimeStart = document.querySelector('#btn-time-start')
-
-            BtnTimeStart.addEventListener("Click", function () {
-
-                const time = new Date();
-                fetch("/Appointments/Details/1"), {
-                    method: 'POST',
-                    body: time
-                };
-
+        if (msgnotify != null && msgnotify !="") {
+            Swal.fire({
+                position: 'top',
+                icon: 'success',
+                title: msgnotify,
+                showConfirmButton: false,
+                timer: 1600
             });
 
-        </script>
-    }*@
+        }
+
+
+
+
+    </script>
+}
 

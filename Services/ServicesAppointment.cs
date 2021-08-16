@@ -171,7 +171,7 @@ namespace Health.Web.App.Services
 
         public bool DisponibleAppointment(string accountDoctorId, DateTime DateAppoitment, TimeSpan startTime, TimeSpan endTime)
         {
-            return _saludAppointment.Appointments.Any(e => e.AccountDoctorId == accountDoctorId && e.DateAppointments==DateAppoitment && e.StartTime == startTime && e.EndTime == endTime);
+            return _saludAppointment.Appointments.Any(e => e.AccountDoctorId == accountDoctorId && e.DateAppointments==DateAppoitment && e.StartTime >= startTime && e.EndTime >= endTime);
         }
     }
 }

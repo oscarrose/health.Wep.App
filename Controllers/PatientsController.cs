@@ -39,6 +39,8 @@ namespace Health.Web.App.Controllers
         // GET: Patients
         public async Task<IActionResult> Index(string SearchString)
         {
+            ViewBag.notifysend = TempData["notifysend"] as string;
+
             return View(await _servicesPatients.GetPatients(SearchString));
         }
 
@@ -90,6 +92,8 @@ namespace Health.Web.App.Controllers
 
                 await _emailSender.SendEmailAsync(patient.Email,"Confirm your registration",
                     $"{ServicesPatients.getmessage} <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+               
+                TempData["notifysend"] = "Patient register successfully";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -144,6 +148,7 @@ namespace Health.Web.App.Controllers
 
                     await _emailSender.SendEmailAsync(patient.Email, "your data was updated",
                         $"{ServicesPatients.getmessage} <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    TempData["notifysend"] = "Data updated correctly";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -162,6 +167,7 @@ namespace Health.Web.App.Controllers
         }
 
         // GET: Patients/Delete/5
+        [Authorize(Roles = "Doctor")]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -179,13 +185,14 @@ namespace Health.Web.App.Controllers
         }
 
         // POST: Patients/Delete/5
-        [Authorize(Roles = "Doctor")]
+ 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         
         public IActionResult DeleteConfirmed(int id)
         {
             _servicesPatients.DeletePatients(id);
+            TempData["notifysend"] = "Patient has been successfully removed";
             return RedirectToAction(nameof(Index));
         }
 
